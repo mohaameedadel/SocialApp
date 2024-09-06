@@ -19,7 +19,8 @@ export const signIn = createAsyncThunk(
       );
       toast.success(data.message);
       return data;
-    } catch (error) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error:any) {
       toast.error(error.response.data.error);
       return error.response.data.error;
     }
@@ -67,3 +68,5 @@ export const login = createSlice({
 });
 export const { clearData, getToken } = login.actions;
 export const loginSlice = login.reducer;
+
+

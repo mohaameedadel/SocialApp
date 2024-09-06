@@ -85,7 +85,7 @@ export default function SignIN() {
             <div className="flex justify-between items-center">
               {loading ? (
                 <Button type="button" variant="contained">
-                  <CircularProgress color="white" />
+                  <CircularProgress color="info" />
                 </Button>
               ) : (
                 <Button
