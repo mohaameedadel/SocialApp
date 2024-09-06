@@ -6,7 +6,6 @@ import { Provider } from "react-redux";
 
 import { store } from "./redux/store";
 import { Toaster } from "react-hot-toast";
-import { useEffect } from "react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",

@@ -1,7 +1,7 @@
-import { Token } from "@mui/icons-material";
+
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import exp from "constants";
+
 import toast from "react-hot-toast";
 
 interface IUserData {
