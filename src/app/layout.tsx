@@ -5,9 +5,7 @@ import Navbar from "./_components/Navbar/Navbar";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { Toaster } from "react-hot-toast";
-import { CssBaseline } from "@mui/material";
-import { ThemeProvider } from "@mui/material/styles";
-import theme from "./theme";
+import { StyledEngineProvider } from "@mui/material";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,16 +30,13 @@ export default function RootLayout({
         suppressHydrationWarning={true}
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-     
-          <ThemeProvider theme={theme}>
-            <Provider store={store}>
-              <Navbar />
-              <div className="pt-20">{children}</div>
-              <Toaster />
-              <CssBaseline />
-            </Provider>
-          </ThemeProvider>
-  
+        <StyledEngineProvider injectFirst>
+          <Provider store={store}>
+            <Navbar />
+            <div className="pt-20">{children}</div>
+            <Toaster />
+          </Provider>
+        </StyledEngineProvider>
       </body>
     </html>
   );
