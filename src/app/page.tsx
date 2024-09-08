@@ -22,7 +22,7 @@ export default function Home() {
 
   useEffect(() => {
     dispatch(getPosts());
-  }, []);
+  }, [dispatch]);
   if (!token) {
     return null;
   }
