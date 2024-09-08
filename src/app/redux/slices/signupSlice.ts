@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { useRouter } from "next/navigation";
 
 import toast from "react-hot-toast";
 

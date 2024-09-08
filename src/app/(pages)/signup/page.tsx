@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Alert,
   Button,
@@ -18,7 +18,7 @@ import { signUp } from "@/app/redux/slices/signupSlice";
 import { useRouter } from "next/navigation";
 export default function SignUp() {
   const dispatch = useDispatch<AppDispatch>();
-  const { loading, message } = useSelector(
+  const { loading} = useSelector(
     (state: RootState) => state.signupSlice
   );
 
