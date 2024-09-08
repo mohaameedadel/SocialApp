@@ -6,6 +6,8 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { Toaster } from "react-hot-toast";
 import { StyledEngineProvider } from "@mui/material";
+import { ThemeProvider } from "@emotion/react";
+import theme from "./theme";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,11 +33,13 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <StyledEngineProvider injectFirst>
-          <Provider store={store}>
-            <Navbar />
-            <div className="pt-20">{children}</div>
-            <Toaster />
-          </Provider>
+          <ThemeProvider theme={theme}>
+            <Provider store={store}>
+              <Navbar />
+              <div className="pt-20">{children}</div>
+              <Toaster />
+            </Provider>
+          </ThemeProvider>
         </StyledEngineProvider>
       </body>
     </html>

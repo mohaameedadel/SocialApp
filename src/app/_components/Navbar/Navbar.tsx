@@ -20,7 +20,7 @@ export default function Navbar() {
   const dispatch = useDispatch();
 
   const { push } = useRouter();
-const pathName = usePathname()
+  const pathName = usePathname();
   React.useEffect(() => {
     dispatch(getToken());
   }, [dispatch, token]);
@@ -30,7 +30,7 @@ const pathName = usePathname()
       <AppBar position="fixed">
         <Toolbar className="relative">
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Social App
+            <Link href={"/"}>Social App</Link>
           </Typography>
           <IconButton
             onClick={() => setShow(!show)}
@@ -50,10 +50,18 @@ const pathName = usePathname()
           >
             {token ? (
               <>
-                <Button className={`${pathName == "/" && "bg-slate-700"}`} onClick={() => setShow(false)} color="inherit">
+                <Button
+                  className={`${pathName == "/" && "bg-slate-700"}`}
+                  onClick={() => setShow(false)}
+                  color="inherit"
+                >
                   <Link href={"/"}>Home</Link>
                 </Button>
-                <Button className={`${pathName == "/profile" && "bg-slate-700"}`} onClick={() => setShow(false)} color="inherit">
+                <Button
+                  className={`${pathName == "/profile" && "bg-slate-700"}`}
+                  onClick={() => setShow(false)}
+                  color="inherit"
+                >
                   <Link href={"/profile"}>Profile</Link>
                 </Button>
                 <Button
@@ -69,10 +77,18 @@ const pathName = usePathname()
               </>
             ) : (
               <>
-                <Button onClick={() => setShow(false)} color="inherit">
+                <Button
+                  className={`${pathName == "/signin" && "bg-slate-700"}`}
+                  onClick={() => setShow(false)}
+                  color="inherit"
+                >
                   <Link href={"/signin"}>SignIN</Link>
                 </Button>
-                <Button onClick={() => setShow(false)} color="inherit">
+                <Button
+                  className={`${pathName == "/signup" && "bg-slate-700"}`}
+                  onClick={() => setShow(false)}
+                  color="inherit"
+                >
                   <Link href={"/signup"}>SignUp</Link>
                 </Button>
               </>
