@@ -93,7 +93,7 @@ export default function SignIN() {
                   variant="contained"
                   endIcon={<LoginIcon />}
                 >
-                  SignIN
+                  SignIn
                 </Button>
               )}
               <Link

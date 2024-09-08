@@ -12,7 +12,7 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/app/redux/store";
 import { clearData, getToken } from "@/app/redux/slices/loginSlice";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Navbar() {
   const { token } = useSelector((state: RootState) => state.loginSlice);
@@ -20,7 +20,7 @@ export default function Navbar() {
   const dispatch = useDispatch();
 
   const { push } = useRouter();
-
+const pathName = usePathname()
   React.useEffect(() => {
     dispatch(getToken());
   }, [dispatch, token]);
@@ -50,10 +50,10 @@ export default function Navbar() {
           >
             {token ? (
               <>
-                <Button onClick={() => setShow(false)} color="inherit">
+                <Button className={`${pathName == "/" && "bg-slate-700"}`} onClick={() => setShow(false)} color="inherit">
                   <Link href={"/"}>Home</Link>
                 </Button>
-                <Button onClick={() => setShow(false)} color="inherit">
+                <Button className={`${pathName == "/profile" && "bg-slate-700"}`} onClick={() => setShow(false)} color="inherit">
                   <Link href={"/profile"}>Profile</Link>
                 </Button>
                 <Button
