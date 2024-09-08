@@ -1,3 +1,4 @@
+
 import { IPost } from "@/app/interfaces/postInterFace";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -12,18 +13,20 @@ const initialState: IPostsState = {
   posts: [],
 };
 
-const headers = {
-  token: `${localStorage.getItem("token")}`,
-};
+
 
 export const getPosts = createAsyncThunk("posts/getPosts", async () => {
   try {
-    const { data } = await axios.get(
-      "https://linked-posts.routemisr.com/posts?limit=50",
-      { headers }
-    );
+    if (localStorage.getItem("token")) {
+      const { data } = await axios.get(
+        "https://linked-posts.routemisr.com/posts?limit=50",
+        { headers:{
+          token:localStorage.getItem("token")
+        } }
+      );
 
-    return data.posts;
+      return data.posts;
+    }
   } catch (error) {
     console.log(error);
   }

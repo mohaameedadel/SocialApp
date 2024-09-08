@@ -17,14 +17,11 @@ export default function Home() {
   useEffect(() => {
     if (!localStorage.getItem("token")) {
       router.push("/signin");
-    }
-  }, [token, router]);
-
-  useEffect(() => {
-    if(localStorage.getItem("token")){
+    }else{
       dispatch(getPosts());
     }
-  }, [dispatch]);
+  }, [token, router,dispatch]);
+
   if (!token) {
     return null;
   }
