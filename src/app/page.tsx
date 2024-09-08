@@ -21,7 +21,9 @@ export default function Home() {
   }, [token, router]);
 
   useEffect(() => {
-    dispatch(getPosts());
+    if(localStorage.getItem("token")){
+      dispatch(getPosts());
+    }
   }, [dispatch]);
   if (!token) {
     return null;
