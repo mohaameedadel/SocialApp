@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import * as React from "react";
 import { styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
@@ -120,7 +120,7 @@ export default function RecipeReviewCard() {
                 </Typography>
               </CardContent>
               <Typography className="text-center pb-3 hover:text-mainColor hover:underline duration-200">
-                <Link href={"/singlepost"}>Show More</Link>
+                <Link href={`/singlepost/${post._id}`}>Show More Comments</Link>
               </Typography>
             </Collapse>
           </Card>
