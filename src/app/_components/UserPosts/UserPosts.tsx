@@ -33,10 +33,10 @@ const ExpandMore = styled((props: any) => {
   transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
 }));
 
-export default function AllPosts() {
+export default function UserPosts() {
   const [expanded, setExpanded] = React.useState(false);
   const [expandedId, setExpandedId] = React.useState("");
-  const { posts } = useSelector((state: RootState) => state.posts);
+  const { posts } = useSelector((state: RootState) => state.userPosts);
   const { push } = useRouter();
   const handleExpandClick = () => {
     setExpanded(true);
@@ -46,7 +46,7 @@ export default function AllPosts() {
     <>
       {posts.length > 0 &&
         posts.map((post) => (
-          <Card key={post._id} className="mb-4">
+          <Card key={post._id} className="mb-4 ">
             <CardHeader
               avatar={
                 <Avatar className="bg-mainColor" aria-label="recipe">
@@ -89,7 +89,6 @@ export default function AllPosts() {
               <IconButton aria-label="share">
                 <ShareIcon />
               </IconButton>
-
               {post.comments.length > 0 && (
                 <ExpandMore
                   expand={expandedId == post._id && expanded}

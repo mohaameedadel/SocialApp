@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast";
 import { StyledEngineProvider } from "@mui/material";
 import { ThemeProvider } from "@emotion/react";
 import theme from "./theme";
+import MenuContextProvider from "./_context/MenuContext/MenuContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -35,9 +36,11 @@ export default function RootLayout({
         <StyledEngineProvider injectFirst>
           <ThemeProvider theme={theme}>
             <Provider store={store}>
-              <Navbar />
-              <div className="pt-20">{children}</div>
-              <Toaster />
+              <MenuContextProvider>
+                <Navbar />
+                <div className="pt-20">{children}</div>
+                <Toaster />
+              </MenuContextProvider>
             </Provider>
           </ThemeProvider>
         </StyledEngineProvider>

@@ -16,7 +16,6 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/app/redux/store";
 import Image from "next/image";
 
-
 export default function SinglePostDetails() {
   const { post } = useSelector((state: RootState) => state.posts);
 
@@ -66,32 +65,34 @@ export default function SinglePostDetails() {
               <ShareIcon />
             </IconButton>
           </CardActions>
-          <Collapse in={true} timeout="auto" unmountOnExit>
-            <Typography className="px-2" sx={{ marginBottom: 2 }}>
-              Comments:
-            </Typography>
-            {post.comments.map((comment) => (
-              <CardContent className="border-b" key={comment._id}>
-                <CardHeader
-                  avatar={
-                    <Avatar className="bg-mainColor" aria-label="recipe">
-                      {comment.commentCreator.name.slice(0, 1).toUpperCase()}
-                    </Avatar>
-                  }
-                  action={
-                    <IconButton aria-label="settings">
-                      <MoreVertIcon />
-                    </IconButton>
-                  }
-                  title={comment.commentCreator.name}
-                  subheader={comment.createdAt.slice(0, 10)}
-                />
-                <Typography className="px-9 py-3" sx={{ marginBottom: 2 }}>
-                  {comment.content}
-                </Typography>
-              </CardContent>
-            ))}
-          </Collapse>
+          {post.comments.length > 0 && (
+            <Collapse in={true} timeout="auto" unmountOnExit>
+              <Typography className="px-2" sx={{ marginBottom: 2 }}>
+                Comments:
+              </Typography>
+              {post.comments.map((comment) => (
+                <CardContent className="border-b" key={comment._id}>
+                  <CardHeader
+                    avatar={
+                      <Avatar className="bg-mainColor" aria-label="recipe">
+                        {comment.commentCreator.name.slice(0, 1).toUpperCase()}
+                      </Avatar>
+                    }
+                    action={
+                      <IconButton aria-label="settings">
+                        <MoreVertIcon />
+                      </IconButton>
+                    }
+                    title={comment.commentCreator.name}
+                    subheader={comment.createdAt.slice(0, 10)}
+                  />
+                  <Typography className="px-9 py-3" sx={{ marginBottom: 2 }}>
+                    {comment.content}
+                  </Typography>
+                </CardContent>
+              ))}
+            </Collapse>
+          )}
         </Card>
       )}
     </>

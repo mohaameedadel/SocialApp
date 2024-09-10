@@ -3,12 +3,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import { loginSlice } from "./slices/loginSlice";
 import { signupSlice } from "./slices/signupSlice";
 import { posts } from "./slices/postsSlice";
+import { userPosts } from "./slices/userPosts";
 
 export const store = configureStore({
   reducer: {
     loginSlice,
     signupSlice,
     posts,
+    userPosts
   },
 });
 

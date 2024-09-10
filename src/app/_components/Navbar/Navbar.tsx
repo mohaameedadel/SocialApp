@@ -43,7 +43,7 @@ export default function Navbar() {
           >
             <MenuIcon />
           </IconButton>
-          <div
+          <Typography
             className={`${
               show ? "flex flex-col" : "hidden"
             }  p-4 fixed top-[65px] right-5 bg-mainColor sm:bg-transparent sm:right-0 sm:top-0 sm:relative sm:block`}
@@ -93,7 +93,7 @@ export default function Navbar() {
                 </Button>
               </>
             )}
-          </div>
+          </Typography>
         </Toolbar>
       </AppBar>
     </Box>
