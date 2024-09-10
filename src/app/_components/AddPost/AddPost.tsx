@@ -45,8 +45,8 @@ export default function AddPost() {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
 
-    let body = form.body.value;
-    let image = form.image.files[0];
+    const body = form.body.value;
+    const image = form.image.files[0];
 
     const formData = new FormData();
     formData.append("body", body);
