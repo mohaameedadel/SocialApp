@@ -13,7 +13,9 @@ import { getUserPosts } from "@/app/redux/slices/userPosts";
 
 export default function Profile() {
   const { token } = useSelector((state: RootState) => state.loginSlice);
-  const { loading, posts } = useSelector((state: RootState) => state.userPosts);
+  const { loading, posts, addPost, removePost } = useSelector(
+    (state: RootState) => state.userPosts
+  );
   const dispatch = useDispatch<AppDispatch>();
 
   const router = useRouter();
@@ -31,7 +33,7 @@ export default function Profile() {
     } else {
       dispatch(getUserPosts());
     }
-  }, [token, router, dispatch]);
+  }, [token, router, dispatch, addPost, removePost]);
 
   if (!token) {
     return null;

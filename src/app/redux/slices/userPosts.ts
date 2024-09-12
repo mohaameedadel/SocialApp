@@ -6,11 +6,15 @@ import toast from "react-hot-toast";
 interface IPostsState {
   loading: boolean;
   posts: IPost[];
+  addPost: boolean;
+  removePost: boolean;
 }
 
 const initialState: IPostsState = {
   loading: false,
   posts: [],
+  addPost: false,
+  removePost: false,
 };
 
 export const getUserPosts = createAsyncThunk(
@@ -27,7 +31,7 @@ export const getUserPosts = createAsyncThunk(
       );
       return data.posts;
     } catch (error) {
-      return error
+      return error;
     }
   }
 );
@@ -54,6 +58,26 @@ export const AddUserPost = createAsyncThunk(
   }
 );
 
+export const deletePost = createAsyncThunk(
+  "userPosts/deletePost",
+  async (id: string) => {
+    try {
+      const { data } = await axios.delete(
+        `https://linked-posts.routemisr.com/posts/${id}`,
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        }
+      );
+      toast.success("Post Removed");
+      return data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
+
 const userPostsSlice = createSlice({
   name: "userPosts",
   initialState,
@@ -61,9 +85,11 @@ const userPostsSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(AddUserPost.pending, (state) => {
       state.loading = true;
+      state.addPost = false;
     });
     builder.addCase(AddUserPost.fulfilled, (state) => {
       state.loading = false;
+      state.addPost = true;
     });
     builder.addCase(AddUserPost.rejected, (state) => {
       state.loading = false;
@@ -74,6 +100,14 @@ const userPostsSlice = createSlice({
     builder.addCase(getUserPosts.fulfilled, (state, action) => {
       state.loading = false;
       state.posts = action.payload;
+    });
+    builder.addCase(deletePost.pending, (state) => {
+      state.loading = true;
+      state.removePost = false;
+    });
+    builder.addCase(deletePost.fulfilled, (state) => {
+      state.loading = false;
+      state.removePost = true;
     });
   },
 });

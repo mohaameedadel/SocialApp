@@ -29,6 +29,8 @@ const VisuallyHiddenInput = styled("input")({
   whiteSpace: "nowrap",
   width: 1,
 });
+
+
 export default function AddPost() {
   const menuContext = useContext(MenuContext);
 
@@ -49,12 +51,16 @@ export default function AddPost() {
     const image = form.image.files[0];
 
     const formData = new FormData();
-    formData.append("body", body);
+    if (body) {
+      formData.append("body", body);
+    }
     if (image) {
       formData.append("image", image);
     }
+    if (formData.has("body" )|| formData.has("image")) {
+      dispatch(AddUserPost(formData));
+    }
 
-    dispatch(AddUserPost(formData));
     form.body.value = "";
   }
   return (

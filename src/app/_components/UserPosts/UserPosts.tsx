@@ -10,15 +10,16 @@ import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import FavoriteIcon from "@mui/icons-material/Favorite";
+import DeleteIcon from "@mui/icons-material/Delete";
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/redux/store";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { deletePost } from "@/app/redux/slices/userPosts";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ExpandMore = styled((props: any) => {
@@ -37,6 +38,7 @@ export default function UserPosts() {
   const [expanded, setExpanded] = React.useState(false);
   const [expandedId, setExpandedId] = React.useState("");
   const { posts } = useSelector((state: RootState) => state.userPosts);
+const dispatch =  useDispatch<AppDispatch>()
   const { push } = useRouter();
   const handleExpandClick = () => {
     setExpanded(true);
@@ -83,8 +85,8 @@ export default function UserPosts() {
               </Typography>
             </CardContent>
             <CardActions disableSpacing>
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
+              <IconButton onClick={()=>dispatch(deletePost(post._id))} aria-label="delete">
+                <DeleteIcon />
               </IconButton>
               <IconButton aria-label="share">
                 <ShareIcon />
