@@ -6,7 +6,6 @@ import {
   Container,
   Paper,
   TextField,
-  Typography,
 } from "@mui/material";
 import React from "react";
 import LoginIcon from "@mui/icons-material/Login";
@@ -83,7 +82,7 @@ export default function SignIN() {
                 {formik.errors.password}
               </Alert>
             )}
-            <Typography className="flex justify-between items-center">
+            <div className="flex justify-between items-center">
               {loading ? (
                 <Button type="button" variant="contained">
                   <CircularProgress color="info" />
@@ -103,7 +102,7 @@ export default function SignIN() {
               >
                 Forget Password ?
               </Link>
-            </Typography>
+            </div>
           </form>
         </Paper>
       </Container>

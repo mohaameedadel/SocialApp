@@ -10,14 +10,21 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/app/redux/store";
+import { AppDispatch, RootState } from "@/app/redux/store";
 import { clearData, getToken } from "@/app/redux/slices/loginSlice";
 import { usePathname, useRouter } from "next/navigation";
+import { Avatar, CircularProgress } from "@mui/material";
+import Image from "next/image";
+import { getUserData } from "@/app/redux/slices/userInfoSlice";
 
 export default function Navbar() {
   const { token } = useSelector((state: RootState) => state.loginSlice);
+  const { photo, addImage, loading, name } = useSelector(
+    (state: RootState) => state.userInfo
+  );
+
   const [show, setShow] = React.useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const { push } = useRouter();
   const pathName = usePathname();
@@ -25,11 +32,17 @@ export default function Navbar() {
     dispatch(getToken());
   }, [dispatch, token]);
 
+  React.useEffect(() => {
+    if (token) {
+      dispatch(getUserData());
+    }
+  }, [token, dispatch, addImage]);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
         <Toolbar className="relative">
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Typography  variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link href={"/"}>Social App</Link>
           </Typography>
           <IconButton
@@ -43,13 +56,31 @@ export default function Navbar() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
+          <div
             className={`${
               show ? "flex flex-col" : "hidden"
             }  p-4 fixed top-[65px] right-5 bg-mainColor sm:bg-transparent sm:right-0 sm:top-0 sm:relative sm:block`}
           >
             {token ? (
               <>
+                <Button onClick={() => setShow(false)} color="inherit">
+                  <Link href={"/profile"}>
+                    <Avatar className="bg-mainColor" aria-label="recipe">
+                      {loading ? (
+                        <CircularProgress color="inherit" />
+                      ) : photo ? (
+                        <Image
+                          src={photo}
+                          alt="User Image"
+                          width={150}
+                          height={150}
+                        />
+                      ) : (
+                        name.slice(0, 1).toUpperCase()
+                      )}
+                    </Avatar>
+                  </Link>
+                </Button>
                 <Button
                   className={`${pathName == "/" && "bg-slate-700"}`}
                   onClick={() => setShow(false)}
@@ -93,7 +124,7 @@ export default function Navbar() {
                 </Button>
               </>
             )}
-          </Typography>
+          </div>
         </Toolbar>
       </AppBar>
     </Box>

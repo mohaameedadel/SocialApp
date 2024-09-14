@@ -52,7 +52,7 @@ export default function SinglePostDetails() {
           )}
 
           <CardContent>
-            <Typography variant="body2" sx={{ color: "text.secondary" }}>
+            <Typography component="div" variant="body2" sx={{ color: "text.secondary" }}>
               {post.body}
             </Typography>
           </CardContent>
@@ -67,7 +67,7 @@ export default function SinglePostDetails() {
           </CardActions>
           {post.comments.length > 0 && (
             <Collapse in={true} timeout="auto" unmountOnExit>
-              <Typography className="px-2" sx={{ marginBottom: 2 }}>
+              <Typography component="div" className="px-2" sx={{ marginBottom: 2 }}>
                 Comments:
               </Typography>
               {post.comments.map((comment) => (
@@ -86,7 +86,7 @@ export default function SinglePostDetails() {
                     title={comment.commentCreator.name}
                     subheader={comment.createdAt.slice(0, 10)}
                   />
-                  <Typography className="px-9 py-3" sx={{ marginBottom: 2 }}>
+                  <Typography component="div" className="px-9 py-3" sx={{ marginBottom: 2 }}>
                     {comment.content}
                   </Typography>
                 </CardContent>

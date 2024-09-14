@@ -8,7 +8,7 @@ import {
   MenuItem,
   Paper,
   TextField,
-  Typography,
+  
 } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
 import { useFormik } from "formik";
@@ -165,7 +165,7 @@ export default function SignUp() {
               </Alert>
             )}
 
-            <Typography className="flex justify-between border p-3 rounded-md border-gray-300 mb-4">
+            <div className="flex justify-between border p-3 rounded-md border-gray-300 mb-4">
               <label
                 className="flex-grow cursor-pointer text-gray-600"
                 htmlFor="dateOfBirth"
@@ -181,13 +181,13 @@ export default function SignUp() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-            </Typography>
+            </div>
             {formik.errors.dateOfBirth && formik.touched.dateOfBirth && (
               <Alert className="mb-4" variant="filled" severity="error">
                 {formik.errors.dateOfBirth}
               </Alert>
             )}
-            <Typography className="flex justify-between items-center">
+            <div className="flex justify-between items-center">
               {loading ? (
                 <Button type="button" variant="contained">
                   <CircularProgress color="info" />
@@ -201,7 +201,7 @@ export default function SignUp() {
                   SignUp
                 </Button>
               )}
-            </Typography>
+            </div>
           </form>
         </Paper>
       </Container>

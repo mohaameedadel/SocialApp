@@ -2,7 +2,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "./redux/store";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getPosts } from "./redux/slices/postsSlice";
 import { Container } from "@mui/material";
 import AllPosts from "./_components/AllPosts/AllPosts";
@@ -14,13 +14,16 @@ export default function Home() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
 
+  const [isClient, setIsClient] = useState(false);
+
   useEffect(() => {
     if (!localStorage.getItem("token")) {
       router.push("/signin");
-    }else{
+    } else {
       dispatch(getPosts());
+      setIsClient(true);
     }
-  }, [token, router,dispatch]);
+  }, [token, router, dispatch]);
 
   if (!token) {
     return null;
@@ -28,9 +31,11 @@ export default function Home() {
 
   return (
     <>
-      <Container maxWidth="sm">
-        {loading ? <SkelltonLoading /> : posts && <AllPosts />}
-      </Container>
+      {isClient && (
+        <Container maxWidth="sm">
+          {loading ? <SkelltonLoading /> : posts && <AllPosts />}
+        </Container>
+      )}
     </>
   );
 }

@@ -38,7 +38,7 @@ export default function UserPosts() {
   const [expanded, setExpanded] = React.useState(false);
   const [expandedId, setExpandedId] = React.useState("");
   const { posts } = useSelector((state: RootState) => state.userPosts);
-const dispatch =  useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
   const { push } = useRouter();
   const handleExpandClick = () => {
     setExpanded(true);
@@ -85,7 +85,10 @@ const dispatch =  useDispatch<AppDispatch>()
               </Typography>
             </CardContent>
             <CardActions disableSpacing>
-              <IconButton onClick={()=>dispatch(deletePost(post._id))} aria-label="delete">
+              <IconButton
+                onClick={() => dispatch(deletePost(post._id))}
+                aria-label="delete"
+              >
                 <DeleteIcon />
               </IconButton>
               <IconButton aria-label="share">
@@ -114,7 +117,7 @@ const dispatch =  useDispatch<AppDispatch>()
                 timeout="auto"
                 unmountOnExit
               >
-                <Typography className="px-2" sx={{ marginBottom: 2 }}>
+                <Typography component="div" className="px-2" sx={{ marginBottom: 2 }}>
                   Comments:
                 </Typography>
                 <CardContent>
@@ -134,15 +137,15 @@ const dispatch =  useDispatch<AppDispatch>()
                     title={post.comments[0]?.commentCreator.name}
                     subheader={post.comments[0]?.createdAt.slice(0, 10)}
                   />
-                  <Typography className="px-9 py-3" sx={{ marginBottom: 2 }}>
+                  <Typography component="div" className="px-9 py-3" sx={{ marginBottom: 2 }}>
                     {post.comments[0]?.content}
                   </Typography>
                 </CardContent>
-                <Typography className="text-center pb-3 hover:text-mainColor hover:underline duration-200">
+                <div className="text-center pb-3 hover:text-mainColor hover:underline duration-200">
                   <Link href={`/singlepost/${post._id}`}>
                     Show More Comments
                   </Link>
-                </Typography>
+                </div>
               </Collapse>
             )}
           </Card>

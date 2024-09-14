@@ -78,7 +78,11 @@ export default function AllPosts() {
             )}
 
             <CardContent>
-              <Typography variant="body2" sx={{ color: "text.secondary" }}>
+              <Typography
+                component="div"
+                variant="body2"
+                sx={{ color: "text.secondary" }}
+              >
                 {post.body}
               </Typography>
             </CardContent>
@@ -113,7 +117,11 @@ export default function AllPosts() {
                 timeout="auto"
                 unmountOnExit
               >
-                <Typography className="px-2" sx={{ marginBottom: 2 }}>
+                <Typography
+                  component="div"
+                  className="px-2"
+                  sx={{ marginBottom: 2 }}
+                >
                   Comments:
                 </Typography>
                 <CardContent>
@@ -133,15 +141,19 @@ export default function AllPosts() {
                     title={post.comments[0]?.commentCreator.name}
                     subheader={post.comments[0]?.createdAt.slice(0, 10)}
                   />
-                  <Typography className="px-9 py-3" sx={{ marginBottom: 2 }}>
+                  <Typography
+                    component="div"
+                    className="px-9 py-3"
+                    sx={{ marginBottom: 2 }}
+                  >
                     {post.comments[0]?.content}
                   </Typography>
                 </CardContent>
-                <Typography className="text-center pb-3 hover:text-mainColor hover:underline duration-200">
+                <div className="text-center pb-3 hover:text-mainColor hover:underline duration-200">
                   <Link href={`/singlepost/${post._id}`}>
                     Show More Comments
                   </Link>
-                </Typography>
+                </div>
               </Collapse>
             )}
           </Card>

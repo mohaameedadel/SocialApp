@@ -109,6 +109,9 @@ const userPostsSlice = createSlice({
       state.loading = false;
       state.removePost = true;
     });
+    builder.addCase(deletePost.rejected, (state) => {
+      state.loading = false;
+    });
   },
 });
 

@@ -7,7 +7,7 @@ import { AppDispatch, RootState } from "@/app/redux/store";
 import { Container } from "@mui/material";
 import { useRouter } from "next/navigation";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 interface IPrams {
   id: string;
@@ -17,7 +17,7 @@ export default function SinglePost(props: { params: IPrams }) {
   const router = useRouter();
   const { loading, post } = useSelector((state: RootState) => state.posts);
   const dispatch = useDispatch<AppDispatch>();
-
+  const [isClient, setIsClient] = useState(false);
   useEffect(() => {
     dispatch(getSinglePost(props.params.id));
   }, [props.params.id, dispatch]);
@@ -25,6 +25,8 @@ export default function SinglePost(props: { params: IPrams }) {
   useEffect(() => {
     if (!localStorage.getItem("token")) {
       router.push("/signin");
+    } else {
+      setIsClient(true);
     }
   }, [token, router]);
 
@@ -33,8 +35,12 @@ export default function SinglePost(props: { params: IPrams }) {
   }
 
   return (
-    <Container maxWidth="sm">
-      {loading ? <SkelltonLoading /> : post && <SinglePostDetails />}
-    </Container>
+    <>
+      {isClient && (
+        <Container maxWidth="sm">
+          {loading ? <SkelltonLoading /> : post && <SinglePostDetails />}
+        </Container>
+      )}
+    </>
   );
 }
