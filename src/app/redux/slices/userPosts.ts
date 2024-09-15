@@ -8,6 +8,7 @@ interface IPostsState {
   posts: IPost[];
   addPost: boolean;
   removePost: boolean;
+  updatePost: boolean;
 }
 
 const initialState: IPostsState = {
@@ -15,6 +16,7 @@ const initialState: IPostsState = {
   posts: [],
   addPost: false,
   removePost: false,
+  updatePost: false,
 };
 
 export const getUserPosts = createAsyncThunk(
@@ -78,6 +80,28 @@ export const deletePost = createAsyncThunk(
   }
 );
 
+export const updatePost = createAsyncThunk(
+  "userPosts/updatePost",
+  async ({ formData, id }: { formData: FormData; id: string }) => {
+    try {
+      const { data } = await axios.put(
+        `https://linked-posts.routemisr.com/posts/${id}`,
+        formData,
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        }
+      );
+
+      toast.success(data.message, { className: "z-[9999]" });
+      return data;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error.response.data.error);
+    }
+  }
+);
 const userPostsSlice = createSlice({
   name: "userPosts",
   initialState,
@@ -110,6 +134,17 @@ const userPostsSlice = createSlice({
       state.removePost = true;
     });
     builder.addCase(deletePost.rejected, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(updatePost.pending, (state) => {
+      state.loading = true;
+      state.updatePost = false;
+    });
+    builder.addCase(updatePost.fulfilled, (state) => {
+      state.loading = false;
+      state.updatePost = true;
+    });
+    builder.addCase(updatePost.rejected, (state) => {
       state.loading = false;
     });
   },

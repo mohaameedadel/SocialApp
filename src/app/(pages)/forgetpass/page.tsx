@@ -14,7 +14,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { changeUserPass } from "@/app/redux/slices/userInfoSlice";
-import SyncLockIcon from '@mui/icons-material/SyncLock';
+import SyncLockIcon from "@mui/icons-material/SyncLock";
 export default function ForgetPass() {
   const { token } = useSelector((state: RootState) => state.loginSlice);
   const { loading } = useSelector((state: RootState) => state.userInfo);
@@ -43,7 +43,7 @@ export default function ForgetPass() {
       newPassword: "",
     },
     validationSchema,
-    onSubmit: async(values) => {
+    onSubmit: async (values) => {
       await dispatch(changeUserPass(values));
     },
   });

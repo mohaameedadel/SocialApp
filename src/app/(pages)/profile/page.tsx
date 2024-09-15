@@ -14,7 +14,7 @@ import UserInfo from "@/app/_components/UserInfo/UserInfo";
 
 export default function Profile() {
   const { token } = useSelector((state: RootState) => state.loginSlice);
-  const { loading, posts, addPost, removePost } = useSelector(
+  const { loading, posts, addPost, removePost, updatePost } = useSelector(
     (state: RootState) => state.userPosts
   );
   const { addImage } = useSelector((state: RootState) => state.userInfo);
@@ -38,7 +38,7 @@ export default function Profile() {
       dispatch(getUserPosts());
       setIsClient(true);
     }
-  }, [token, router, dispatch, addPost, removePost, addImage]);
+  }, [token, router, dispatch, addPost, removePost, addImage, updatePost]);
 
   if (!token) {
     return null;

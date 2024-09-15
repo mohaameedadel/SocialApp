@@ -29,7 +29,7 @@ export const getPosts = createAsyncThunk("posts/getPosts", async () => {
       return data.posts;
     }
   } catch (error) {
-    console.log(error);
+    return error
   }
 });
 
@@ -49,7 +49,7 @@ export const getSinglePost = createAsyncThunk("posts/getSinglePost", async (id:s
       return data.post;
     }
   } catch (error) {
-    console.log(error);
+    return error
   }
 });
 

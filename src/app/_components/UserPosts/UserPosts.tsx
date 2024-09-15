@@ -19,8 +19,27 @@ import { AppDispatch, RootState } from "@/app/redux/store";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { deletePost } from "@/app/redux/slices/userPosts";
+import { deletePost, updatePost } from "@/app/redux/slices/userPosts";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import EditIcon from "@mui/icons-material/Edit";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
+const VisuallyHiddenInput = styled("input")({
+  clip: "rect(0 0 0 0)",
+  clipPath: "inset(50%)",
+  height: 1,
+  overflow: "hidden",
+  position: "absolute",
+  bottom: 0,
+  left: 0,
+  whiteSpace: "nowrap",
+  width: 1,
+});
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ExpandMore = styled((props: any) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -44,6 +63,37 @@ export default function UserPosts() {
     setExpanded(true);
   };
 
+  const [openDialogId, setOpenDialogId] = React.useState<string | null>(null);
+
+  const handleClickOpen = (id: string) => {
+    setOpenDialogId(id);
+  };
+
+  const handleClose = () => {
+    setOpenDialogId(null);
+  };
+
+  function handelSubmit(e: React.FormEvent<HTMLFormElement>, id: string) {
+    e.preventDefault();
+
+    const form = e.target as HTMLFormElement;
+
+    const body = form.body.value;
+    const image = form.image.files[0];
+
+    const formData = new FormData();
+    if (body) {
+      formData.append("body", body);
+    }
+    if (image) {
+      formData.append("image", image);
+    }
+    if (formData.has("body") || formData.has("image")) {
+      dispatch(updatePost({ formData, id }));
+    }
+
+    form.body.value = "";
+  }
   return (
     <>
       {posts.length > 0 &&
@@ -62,7 +112,7 @@ export default function UserPosts() {
               }
               action={
                 <IconButton aria-label="settings">
-                  <MoreVertIcon />
+                  <EditIcon onClick={() => handleClickOpen(post._id)} />
                 </IconButton>
               }
               title={post.user.name}
@@ -94,6 +144,47 @@ export default function UserPosts() {
               <IconButton aria-label="share">
                 <ShareIcon />
               </IconButton>
+
+              <Dialog
+                open={openDialogId === post._id}
+                onClose={handleClose}
+                PaperProps={{
+                  component: "form",
+                  onSubmit: (e: React.FormEvent<HTMLFormElement>) => {
+                    handelSubmit(e, post._id);
+                  },
+                }}
+              >
+                <DialogTitle>Post Content</DialogTitle>
+                <DialogContent className="text-center">
+                  <TextField
+                    margin="dense"
+                    id="body"
+                    name="body"
+                    label="Body"
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                  />
+                  <Button
+                    className="my-4 "
+                    component="label"
+                    role={undefined}
+                    variant="contained"
+                    tabIndex={-1}
+                    startIcon={<CloudUploadIcon />}
+                  >
+                    Upload files
+                    <VisuallyHiddenInput type="file" id="image" multiple />
+                  </Button>
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Cancel</Button>
+                  <Button variant="contained" type="submit">
+                    Update Post
+                  </Button>
+                </DialogActions>
+              </Dialog>
               {post.comments.length > 0 && (
                 <ExpandMore
                   expand={expandedId == post._id && expanded}
@@ -117,7 +208,11 @@ export default function UserPosts() {
                 timeout="auto"
                 unmountOnExit
               >
-                <Typography component="div" className="px-2" sx={{ marginBottom: 2 }}>
+                <Typography
+                  component="div"
+                  className="px-2"
+                  sx={{ marginBottom: 2 }}
+                >
                   Comments:
                 </Typography>
                 <CardContent>
@@ -137,7 +232,11 @@ export default function UserPosts() {
                     title={post.comments[0]?.commentCreator.name}
                     subheader={post.comments[0]?.createdAt.slice(0, 10)}
                   />
-                  <Typography component="div" className="px-9 py-3" sx={{ marginBottom: 2 }}>
+                  <Typography
+                    component="div"
+                    className="px-9 py-3"
+                    sx={{ marginBottom: 2 }}
+                  >
                     {post.comments[0]?.content}
                   </Typography>
                 </CardContent>

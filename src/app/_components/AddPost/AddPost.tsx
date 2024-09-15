@@ -30,7 +30,6 @@ const VisuallyHiddenInput = styled("input")({
   width: 1,
 });
 
-
 export default function AddPost() {
   const menuContext = useContext(MenuContext);
 
@@ -57,8 +56,9 @@ export default function AddPost() {
     if (image) {
       formData.append("image", image);
     }
-    if (formData.has("body" )|| formData.has("image")) {
+    if (formData.has("body") || formData.has("image")) {
       dispatch(AddUserPost(formData));
+      setShowMenu(false);
     }
 
     form.body.value = "";
