@@ -8,7 +8,6 @@ import {
   MenuItem,
   Paper,
   TextField,
-  
 } from "@mui/material";
 import LoginIcon from "@mui/icons-material/Login";
 import { useFormik } from "formik";
@@ -19,9 +18,7 @@ import { signUp } from "@/app/redux/slices/signupSlice";
 import { useRouter } from "next/navigation";
 export default function SignUp() {
   const dispatch = useDispatch<AppDispatch>();
-  const { loading} = useSelector(
-    (state: RootState) => state.signupSlice
-  );
+  const { loading } = useSelector((state: RootState) => state.signupSlice);
 
   const { push } = useRouter();
   const currencies = [
@@ -190,7 +187,7 @@ export default function SignUp() {
             <div className="flex justify-between items-center">
               {loading ? (
                 <Button type="button" variant="contained">
-                  <CircularProgress color="info" />
+                  <CircularProgress color="inherit" />
                 </Button>
               ) : (
                 <Button

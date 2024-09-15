@@ -82,10 +82,9 @@ export default function SignIN() {
                 {formik.errors.password}
               </Alert>
             )}
-            <div className="flex justify-between items-center">
               {loading ? (
                 <Button type="button" variant="contained">
-                  <CircularProgress color="info" />
+                  <CircularProgress color="inherit" />
                 </Button>
               ) : (
                 <Button
@@ -96,13 +95,6 @@ export default function SignIN() {
                   SignIn
                 </Button>
               )}
-              <Link
-                className="hover:text-mainColor duration-200 hover:underline"
-                href={"/forgetpass"}
-              >
-                Forget Password ?
-              </Link>
-            </div>
           </form>
         </Paper>
       </Container>

@@ -27,7 +27,7 @@ export default function UserInfo() {
       ) : (
         <Paper className="my-4" elevation={2}>
           <h2 className="px-4 pt-3 text-2xl font-semibold">About User</h2>
-          <Card className="w-full p-4 pt-0 flex justify-between items-center">
+          <Card className="w-full p-4 pt-0 flex justify-between items-center text-center md:text-start flex-col-reverse gap-8 md:flex-row">
             <div>
               <h3 className="text-lg">UserName: {name}</h3>
               <h3 className="text-lg my-2">DateOfBirth: {dateOfBirth}</h3>
@@ -42,6 +42,7 @@ export default function UserInfo() {
                     style={{ width: "auto", height: "auto" }}
                     width={150}
                     height={150}
+                    priority
                   />
                 ) : (
                   name.slice(0, 1).toUpperCase()

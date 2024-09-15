@@ -6,17 +6,26 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/redux/store";
 import { clearData, getToken } from "@/app/redux/slices/loginSlice";
 import { usePathname, useRouter } from "next/navigation";
-import { Avatar, CircularProgress } from "@mui/material";
-import Image from "next/image";
+import {
+  Avatar,
+  Chip,
+  CircularProgress,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
 import { getUserData } from "@/app/redux/slices/userInfoSlice";
-
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import LogoutIcon from "@mui/icons-material/Logout";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import HomeIcon from "@mui/icons-material/Home";
 export default function Navbar() {
   const { token } = useSelector((state: RootState) => state.loginSlice);
   const { photo, addImage, loading, name } = useSelector(
@@ -40,71 +49,104 @@ export default function Navbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed">
+      <AppBar className="z-[9999999999999999999999999]" position="fixed">
         <Toolbar className="relative">
-          <Typography  variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link href={"/"}>Social App</Link>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Link onClick={() => setShow(false)} href={"/"}>
+              Social App
+            </Link>
           </Typography>
-          <IconButton
-            onClick={() => setShow(!show)}
-            className="sm:hidden"
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
-          <div
-            className={`${
-              show ? "flex flex-col" : "hidden"
-            }  p-4 fixed top-[65px] right-5 bg-mainColor sm:bg-transparent sm:right-0 sm:top-0 sm:relative sm:block`}
-          >
+
+          <div className={`p-4`}>
             {token ? (
               <>
-                <Button onClick={() => setShow(false)} color="inherit">
-                  <Link href={"/profile"}>
-                    <Avatar className="bg-mainColor" aria-label="recipe">
-                      {loading ? (
-                        <CircularProgress color="inherit" />
-                      ) : photo ? (
-                        <Image
-                          src={photo}
-                          alt="User Image"
-                          width={150}
-                          height={150}
-                        />
-                      ) : (
-                        name.slice(0, 1).toUpperCase()
-                      )}
-                    </Avatar>
-                  </Link>
-                </Button>
-                <Button
-                  className={`${pathName == "/" && "bg-slate-700"}`}
-                  onClick={() => setShow(false)}
-                  color="inherit"
-                >
-                  <Link href={"/"}>Home</Link>
-                </Button>
-                <Button
-                  className={`${pathName == "/profile" && "bg-slate-700"}`}
-                  onClick={() => setShow(false)}
-                  color="inherit"
-                >
-                  <Link href={"/profile"}>Profile</Link>
-                </Button>
-                <Button
-                  onClick={() => {
-                    setShow(false);
-                    dispatch(clearData());
-                    push("/signin");
-                  }}
-                  color="inherit"
-                >
-                  LogOut
-                </Button>
+                {loading ? (
+                  <CircularProgress color="inherit" />
+                ) : photo ? (
+                  <div className="relative">
+                    <Chip
+                      onClick={() => setShow(!show)}
+                      component={Button}
+                      className="text-white cursor-pointer"
+                      avatar={<Avatar alt="Natacha" src={photo} />}
+                      label={name}
+                      variant="outlined"
+                    />
+                    {show && (
+                      <List className=" absolute overflow-hidden top-[39px] -left-10 shadow bg-mainColor text-white z-[9999999999]">
+                        <Link href="/">
+                          <ListItem
+                            className={`${pathName == "/" && "bg-slate-700"} `}
+                            disablePadding
+                            component="button"
+                            onClick={() => setShow(false)}
+                          >
+                            <ListItemButton className="px-9">
+                              <ListItemIcon>
+                                <HomeIcon className="text-white" />
+                              </ListItemIcon>
+                              <ListItemText primary="Home" />
+                            </ListItemButton>
+                          </ListItem>
+                        </Link>
+                        <Link href="/profile">
+                          <ListItem
+                            className={`${
+                              pathName == "/profile" && "bg-slate-700"
+                            } `}
+                            disablePadding
+                            component="button"
+                            onClick={() => setShow(false)}
+                          >
+                            <ListItemButton className="px-9">
+                              <ListItemIcon>
+                                <AccountBoxIcon className="text-white" />
+                              </ListItemIcon>
+                              <ListItemText primary="Profile" />
+                            </ListItemButton>
+                          </ListItem>
+                        </Link>
+
+                        <Link href="/forgetpass">
+                          <ListItem
+                            className={`${
+                              pathName == "/forgetpass" && "bg-slate-700"
+                            } `}
+                            disablePadding
+                            component="button"
+                            onClick={() => setShow(false)}
+                          >
+                            <ListItemButton className="px-9">
+                              <ListItemIcon>
+                                <ManageAccountsIcon className="text-white" />
+                              </ListItemIcon>
+                              <ListItemText primary="Change Password" />
+                            </ListItemButton>
+                          </ListItem>
+                        </Link>
+
+                        <ListItem
+                          onClick={() => {
+                            setShow(false);
+                            dispatch(clearData());
+                            push("/signin");
+                          }}
+                          disablePadding
+                          component="button"
+                        >
+                          <ListItemButton className="px-9">
+                            <ListItemIcon>
+                              <LogoutIcon className="text-white" />
+                            </ListItemIcon>
+                            <ListItemText primary="LogOut" />
+                          </ListItemButton>
+                        </ListItem>
+                      </List>
+                    )}
+                  </div>
+                ) : (
+                  name.slice(0, 1).toUpperCase()
+                )}
               </>
             ) : (
               <>
