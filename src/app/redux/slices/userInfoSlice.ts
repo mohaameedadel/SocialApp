@@ -50,6 +50,30 @@ export const updateUserImage = createAsyncThunk(
   }
 );
 
+export const changeUserPass = createAsyncThunk(
+  "userInfo/changeUserPass",
+  async (values: { password: string; newPassword: string }) => {
+    try {
+      const { data } = await axios.patch(
+        "https://linked-posts.routemisr.com/users/change-password",
+        values,
+        {
+          headers: {
+            token: localStorage.getItem("token"),
+          },
+        }
+      );
+      localStorage.setItem("token", data.token);
+      toast.success(data.message);
+      return data;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      toast.error(error.response.data.error);
+      return error.response.data.error;
+    }
+  }
+);
+
 interface IinitialState {
   loading: boolean;
   addImage: boolean;
@@ -93,7 +117,12 @@ export const userInfoSlice = createSlice({
     builder.addCase(updateUserImage.fulfilled, (state) => {
       state.loading = false;
       state.addImage = true;
-
+    });
+    builder.addCase(changeUserPass.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(changeUserPass.fulfilled, (state) => {
+      state.loading = false;
     });
   },
 });
