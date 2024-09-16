@@ -31,7 +31,6 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>TriVibe</title>
-        <link rel="icon" href="/logo.png" type="image/png" sizes="16x16" />
       </head>
       <body
         suppressHydrationWarning={true}
