@@ -26,6 +26,7 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import HomeIcon from "@mui/icons-material/Home";
+import { IoTriangleOutline } from "react-icons/io5";
 export default function Navbar() {
   const { token } = useSelector((state: RootState) => state.loginSlice);
   const { photo, addImage, loading, name } = useSelector(
@@ -52,8 +53,12 @@ export default function Navbar() {
       <AppBar className="z-[9999999999999999999999999]" position="fixed">
         <Toolbar className="relative">
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link onClick={() => setShow(false)} href={"/"}>
-              Social App
+            <Link
+              className="flex justify-start items-center uppercase"
+              onClick={() => setShow(false)}
+              href={"/"}
+            >
+              <IoTriangleOutline className="text-4xl " /> Tri<span className="text-3xl">V</span>ibe
             </Link>
           </Typography>
 
@@ -76,7 +81,7 @@ export default function Navbar() {
                       <List className=" absolute overflow-hidden top-[39px] -left-10 shadow bg-mainColor text-white z-[9999999999]">
                         <Link href="/">
                           <ListItem
-                            className={`${pathName == "/" && "bg-slate-700"} `}
+                            className={`${pathName == "/" && "bg-neutral-800"} `}
                             disablePadding
                             component="button"
                             onClick={() => setShow(false)}
@@ -92,7 +97,7 @@ export default function Navbar() {
                         <Link href="/profile">
                           <ListItem
                             className={`${
-                              pathName == "/profile" && "bg-slate-700"
+                              pathName == "/profile" && "bg-neutral-800"
                             } `}
                             disablePadding
                             component="button"
@@ -110,7 +115,7 @@ export default function Navbar() {
                         <Link href="/forgetpass">
                           <ListItem
                             className={`${
-                              pathName == "/forgetpass" && "bg-slate-700"
+                              pathName == "/forgetpass" && "bg-neutral-800"
                             } `}
                             disablePadding
                             component="button"

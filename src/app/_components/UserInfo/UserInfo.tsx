@@ -25,7 +25,7 @@ export default function UserInfo() {
       {loading ? (
         ""
       ) : (
-        <Paper className="my-4" elevation={2}>
+        <Paper className="mb-4" elevation={2}>
           <h2 className="px-4 pt-3 text-2xl font-semibold">About User</h2>
           <Card className="w-full p-4 pt-0 flex justify-between items-center text-center md:text-start flex-col-reverse gap-8 md:flex-row">
             <div>
@@ -34,7 +34,7 @@ export default function UserInfo() {
               <p className="text-lg">Email: {email}</p>
             </div>
             <div>
-              <Avatar className="w-40 h-40" aria-label="recipe">
+              <Avatar className="w-40 h-40 bg-mainColor text-white" aria-label="recipe">
                 {photo ? (
                   <Image
                     src={photo}

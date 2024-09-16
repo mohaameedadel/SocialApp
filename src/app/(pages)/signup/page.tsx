@@ -34,7 +34,7 @@ export default function SignUp() {
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
-      .matches(/^[A-Za-z]{3,}$/)
+      .matches(/^[A-Za-z ]{3,}$/)
       .required("Please enter you name"),
     email: Yup.string()
       .email("Enter Valid E-mail")
