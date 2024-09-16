@@ -11,6 +11,7 @@ import SkelltonLoading from "./_components/SkelltonLoading/SkelltonLoading";
 export default function Home() {
   const { token } = useSelector((state: RootState) => state.loginSlice);
   const { loading, posts } = useSelector((state: RootState) => state.posts);
+  const { commentAdd} = useSelector((state: RootState) => state.comments);
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -23,7 +24,7 @@ export default function Home() {
       dispatch(getPosts());
       setIsClient(true);
     }
-  }, [token, router, dispatch]);
+  }, [token, router, dispatch,commentAdd]);
 
   if (!token) {
     return null;

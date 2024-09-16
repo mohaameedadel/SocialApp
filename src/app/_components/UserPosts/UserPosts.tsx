@@ -11,9 +11,7 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/redux/store";
 import Image from "next/image";
@@ -28,6 +26,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import EditIcon from "@mui/icons-material/Edit";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { Fab } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { addComment, deleteComment } from "@/app/redux/slices/commentSlice";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -64,7 +65,6 @@ export default function UserPosts() {
   };
 
   const [openDialogId, setOpenDialogId] = React.useState<string | null>(null);
-
   const handleClickOpen = (id: string) => {
     setOpenDialogId(id);
   };
@@ -94,6 +94,17 @@ export default function UserPosts() {
 
     form.body.value = "";
   }
+
+  const [content, setContent] = React.useState<{ content: string } | null>(
+    null
+  );
+
+  function handelComment(e: React.ChangeEvent<HTMLInputElement>) {
+    setContent({
+      content: e.target.value,
+    });
+  }
+
   return (
     <>
       {posts.length > 0 &&
@@ -141,10 +152,29 @@ export default function UserPosts() {
               >
                 <DeleteIcon />
               </IconButton>
-              <IconButton aria-label="share">
-                <ShareIcon />
-              </IconButton>
-
+              <div className="flex justify-center items-center mx-auto w-2/3">
+                <TextField
+                  id="content"
+                  label="Comment"
+                  className="w-5/6 me-2"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    handelComment(e);
+                  }}
+                />
+                <Fab
+                  onClick={() => {
+                    if (content) {
+                      dispatch(addComment({ content, id: { post: post._id } }));
+                    }
+                  }}
+                  type="submit"
+                  size="medium"
+                  color="primary"
+                  aria-label="add"
+                >
+                  <AddIcon />
+                </Fab>
+              </div>
               <Dialog
                 open={openDialogId === post._id}
                 onClose={handleClose}
@@ -202,6 +232,7 @@ export default function UserPosts() {
                 </ExpandMore>
               )}
             </CardActions>
+
             {post.comments.length > 0 && (
               <Collapse
                 in={expandedId == post._id && expanded}
@@ -225,8 +256,14 @@ export default function UserPosts() {
                       </Avatar>
                     }
                     action={
-                      <IconButton aria-label="settings">
-                        <MoreVertIcon />
+                      <IconButton
+                        onClick={() =>
+                          dispatch(deleteComment(post.comments[0]?._id))
+                        }
+                        aria-label="delete"
+                        size="small"
+                      >
+                        <DeleteIcon fontSize="inherit" />
                       </IconButton>
                     }
                     title={post.comments[0]?.commentCreator.name}
@@ -240,11 +277,13 @@ export default function UserPosts() {
                     {post.comments[0]?.content}
                   </Typography>
                 </CardContent>
-                <div className="text-center pb-3 hover:text-mainColor hover:underline duration-200">
-                  <Link href={`/singlepost/${post._id}`}>
-                    Show More Comments
-                  </Link>
-                </div>
+                {post.comments.length > 1 && (
+                  <div className="text-center pb-3 hover:text-mainColor hover:underline duration-200">
+                    <Link href={`/singlepost/${post._id}`}>
+                      Show More Comments
+                    </Link>
+                  </div>
+                )}
               </Collapse>
             )}
           </Card>

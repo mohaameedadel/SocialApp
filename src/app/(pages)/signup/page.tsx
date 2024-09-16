@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   Button,
@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/app/redux/store";
 import { signUp } from "@/app/redux/slices/signupSlice";
 import { useRouter } from "next/navigation";
+
+
 export default function SignUp() {
   const dispatch = useDispatch<AppDispatch>();
   const { loading } = useSelector((state: RootState) => state.signupSlice);
@@ -70,138 +72,151 @@ export default function SignUp() {
     },
   });
 
+  const [isClient, setIsClient] = useState(false);
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      push("/");
+      setIsClient(false);
+    } else {
+      setIsClient(true);
+    }
+  }, [push]);
+
   return (
     <>
-      <Container className="mt-8" maxWidth={"sm"}>
-        <Paper className="p-8" elevation={2}>
-          <h2 className="text-3xl font-semibold mb-4">SignUp</h2>
-          <form onSubmit={formik.handleSubmit}>
-            <TextField
-              className="w-full mb-4"
-              id="name"
-              label="Your Name"
-              type="text"
-              autoComplete="current-name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.errors.name && formik.touched.name && (
-              <Alert className="mb-4" variant="filled" severity="error">
-                {formik.errors.name}
-              </Alert>
-            )}
-
-            <TextField
-              className="w-full mb-4"
-              id="email"
-              label="E-mail"
-              type="email"
-              autoComplete="current-email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.errors.email && formik.touched.email && (
-              <Alert className="mb-4" variant="filled" severity="error">
-                {formik.errors.email}
-              </Alert>
-            )}
-
-            <TextField
-              className="w-full  mb-4"
-              id="password"
-              label="Password"
-              type="password"
-              autoComplete="current-password"
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.errors.password && formik.touched.password && (
-              <Alert className="mb-4" variant="filled" severity="error">
-                {formik.errors.password}
-              </Alert>
-            )}
-
-            <TextField
-              className="w-full  mb-4"
-              id="rePassword"
-              label="rePassword"
-              type="password"
-              autoComplete="current-rePassword"
-              value={formik.values.rePassword}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-            {formik.errors.rePassword && formik.touched.rePassword && (
-              <Alert className="mb-4" variant="filled" severity="error">
-                {formik.errors.rePassword}
-              </Alert>
-            )}
-
-            <TextField
-              id="gender"
-              name="gender"
-              select
-              label="Select Your Gender"
-              className="w-full mb-4"
-              value={formik.values.gender}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            >
-              {currencies.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-            {formik.errors.gender && formik.touched.gender && (
-              <Alert className="mb-4" variant="filled" severity="error">
-                {formik.errors.gender}
-              </Alert>
-            )}
-
-            <div className="flex justify-between border p-3 rounded-md border-gray-300 mb-4">
-              <label
-                className="flex-grow cursor-pointer text-gray-600"
-                htmlFor="dateOfBirth"
-              >
-                dateOfBirth
-              </label>
-              <input
-                className="cursor-pointer"
-                type="date"
-                name="dateOfBirth"
-                id="dateOfBirth"
-                value={formik.values.dateOfBirth}
+      {isClient && (
+        <Container className="mt-8" maxWidth={"sm"}>
+          <Paper className="p-8" elevation={2}>
+            <h2 className="text-3xl font-semibold mb-4">SignUp</h2>
+            <form onSubmit={formik.handleSubmit}>
+              <TextField
+                className="w-full mb-4"
+                id="name"
+                label="Your Name"
+                type="text"
+                autoComplete="current-name"
+                value={formik.values.name}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-            </div>
-            {formik.errors.dateOfBirth && formik.touched.dateOfBirth && (
-              <Alert className="mb-4" variant="filled" severity="error">
-                {formik.errors.dateOfBirth}
-              </Alert>
-            )}
-            <div className="flex justify-between items-center">
-              {loading ? (
-                <Button type="button" variant="contained">
-                  <CircularProgress color="inherit" />
-                </Button>
-              ) : (
-                <Button
-                  type="submit"
-                  variant="contained"
-                  endIcon={<LoginIcon />}
-                >
-                  SignUp
-                </Button>
+              {formik.errors.name && formik.touched.name && (
+                <Alert className="mb-4" variant="filled" severity="error">
+                  {formik.errors.name}
+                </Alert>
               )}
-            </div>
-          </form>
-        </Paper>
-      </Container>
+
+              <TextField
+                className="w-full mb-4"
+                id="email"
+                label="E-mail"
+                type="email"
+                autoComplete="current-email"
+                value={formik.values.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.errors.email && formik.touched.email && (
+                <Alert className="mb-4" variant="filled" severity="error">
+                  {formik.errors.email}
+                </Alert>
+              )}
+
+              <TextField
+                className="w-full  mb-4"
+                id="password"
+                label="Password"
+                type="password"
+                autoComplete="current-password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.errors.password && formik.touched.password && (
+                <Alert className="mb-4" variant="filled" severity="error">
+                  {formik.errors.password}
+                </Alert>
+              )}
+
+              <TextField
+                className="w-full  mb-4"
+                id="rePassword"
+                label="rePassword"
+                type="password"
+                autoComplete="current-rePassword"
+                value={formik.values.rePassword}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.errors.rePassword && formik.touched.rePassword && (
+                <Alert className="mb-4" variant="filled" severity="error">
+                  {formik.errors.rePassword}
+                </Alert>
+              )}
+
+              <TextField
+                id="gender"
+                name="gender"
+                select
+                label="Select Your Gender"
+                className="w-full mb-4"
+                value={formik.values.gender}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              >
+                {currencies.map((option) => (
+                  <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </TextField>
+              {formik.errors.gender && formik.touched.gender && (
+                <Alert className="mb-4" variant="filled" severity="error">
+                  {formik.errors.gender}
+                </Alert>
+              )}
+
+              <div className="flex justify-between border p-3 rounded-md border-gray-300 mb-4">
+                <label
+                  className="flex-grow cursor-pointer text-gray-600"
+                  htmlFor="dateOfBirth"
+                >
+                  dateOfBirth
+                </label>
+                <input
+                  className="cursor-pointer"
+                  type="date"
+                  name="dateOfBirth"
+                  id="dateOfBirth"
+                  value={formik.values.dateOfBirth}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                />
+              </div>
+              {formik.errors.dateOfBirth && formik.touched.dateOfBirth && (
+                <Alert className="mb-4" variant="filled" severity="error">
+                  {formik.errors.dateOfBirth}
+                </Alert>
+              )}
+              <div className="flex justify-between items-center">
+                {loading ? (
+                  <Button type="button" variant="contained">
+                    <CircularProgress color="inherit" />
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    variant="contained"
+                    endIcon={<LoginIcon />}
+                  >
+                    SignUp
+                  </Button>
+                )}
+              </div>
+            </form>
+          </Paper>
+          
+        </Container>
+      )}
     </>
   );
 }

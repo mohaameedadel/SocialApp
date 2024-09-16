@@ -65,7 +65,7 @@ export default function UserInfo() {
       <div
         className={`h-screen ${
           showUpdateImage ? "flex" : "hidden"
-        }  justify-start items-center fixed top-0 left-0 w-full bg-slate-500/60 z-[99999999]`}
+        }  justify-start items-center fixed top-0 left-0 w-full bg-black/50 z-[99999999]`}
       >
         <UpdateImage />
       </div>

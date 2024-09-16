@@ -7,6 +7,7 @@ interface IUser {
   photo: string;
   dateOfBirth: string;
   email: string;
+  _id:string
 }
 
 export const getUserData = createAsyncThunk(
@@ -21,7 +22,6 @@ export const getUserData = createAsyncThunk(
           },
         }
       );
-
       return data.user;
     } catch (error) {
       return error;
@@ -81,6 +81,7 @@ interface IinitialState {
   name: string;
   dateOfBirth: string;
   email: string;
+  id:string
 }
 
 const initialState: IinitialState = {
@@ -90,6 +91,7 @@ const initialState: IinitialState = {
   name: "",
   dateOfBirth: "",
   email: "",
+  id:""
 };
 
 export const userInfoSlice = createSlice({
@@ -108,6 +110,7 @@ export const userInfoSlice = createSlice({
         state.name = action.payload.name;
         state.dateOfBirth = action.payload.dateOfBirth;
         state.email = action.payload.email;
+        state.id = action.payload._id
       }
     );
     builder.addCase(updateUserImage.pending, (state) => {

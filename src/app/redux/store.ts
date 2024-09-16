@@ -5,6 +5,7 @@ import { signupSlice } from "./slices/signupSlice";
 import { posts } from "./slices/postsSlice";
 import { userPosts } from "./slices/userPosts";
 import { userInfo } from "./slices/userInfoSlice";
+import { comments } from "./slices/commentSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,7 +13,8 @@ export const store = configureStore({
     signupSlice,
     posts,
     userPosts,
-    userInfo
+    userInfo,
+    comments
   },
 });
 

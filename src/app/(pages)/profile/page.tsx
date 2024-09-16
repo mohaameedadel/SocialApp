@@ -18,6 +18,9 @@ export default function Profile() {
     (state: RootState) => state.userPosts
   );
   const { addImage } = useSelector((state: RootState) => state.userInfo);
+  const { commentAdd, commentDeleted } = useSelector(
+    (state: RootState) => state.comments
+  );
   const dispatch = useDispatch<AppDispatch>();
 
   const router = useRouter();
@@ -38,7 +41,17 @@ export default function Profile() {
       dispatch(getUserPosts());
       setIsClient(true);
     }
-  }, [token, router, dispatch, addPost, removePost, addImage, updatePost]);
+  }, [
+    token,
+    router,
+    dispatch,
+    addPost,
+    removePost,
+    addImage,
+    updatePost,
+    commentAdd,
+    commentDeleted,
+  ]);
 
   if (!token) {
     return null;
@@ -57,7 +70,7 @@ export default function Profile() {
             <AddIcon />
           </Fab>
           <div className={`${showMenu ? "" : "hidden"}`}>
-            <div className="h-screen flex justify-start items-center fixed top-0 left-0 w-full bg-slate-500/60 z-[99999]">
+            <div className="h-screen flex justify-start items-center fixed top-0 left-0 w-full bg-black/50 z-[99999]">
               <AddPost />
             </div>
           </div>

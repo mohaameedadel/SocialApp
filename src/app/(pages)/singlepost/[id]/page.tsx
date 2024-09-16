@@ -16,11 +16,12 @@ export default function SinglePost(props: { params: IPrams }) {
   const { token } = useSelector((state: RootState) => state.loginSlice);
   const router = useRouter();
   const { loading, post } = useSelector((state: RootState) => state.posts);
+  const { commentAdd } = useSelector((state: RootState) => state.comments);
   const dispatch = useDispatch<AppDispatch>();
   const [isClient, setIsClient] = useState(false);
   useEffect(() => {
     dispatch(getSinglePost(props.params.id));
-  }, [props.params.id, dispatch]);
+  }, [props.params.id, dispatch, commentAdd]);
 
   useEffect(() => {
     if (!localStorage.getItem("token")) {

@@ -29,6 +29,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <title>TriVibe</title>
+        <link rel="icon" href="/logo.png" type="image/png" sizes="16x16" />
+      </head>
       <body
         suppressHydrationWarning={true}
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

@@ -14,11 +14,14 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { useSelector } from "react-redux";
-import { RootState } from "@/app/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/app/redux/store";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { Fab, TextField } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { addComment } from "@/app/redux/slices/commentSlice";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ExpandMore = styled((props: any) => {
@@ -37,10 +40,21 @@ export default function AllPosts() {
   const [expanded, setExpanded] = React.useState(false);
   const [expandedId, setExpandedId] = React.useState("");
   const { posts } = useSelector((state: RootState) => state.posts);
+  const dispatch = useDispatch<AppDispatch>();
   const { push } = useRouter();
   const handleExpandClick = () => {
     setExpanded(true);
   };
+
+  const [content, setContent] = React.useState<{ content: string } | null>(
+    null
+  );
+
+  function handelComment(e: React.ChangeEvent<HTMLInputElement>) {
+    setContent({
+      content: e.target.value,
+    });
+  }
 
   return (
     <>
@@ -94,6 +108,29 @@ export default function AllPosts() {
                 <ShareIcon />
               </IconButton>
 
+              <div className="flex justify-center items-center mx-auto w-2/3">
+                <TextField
+                  id="content"
+                  label="Comment"
+                  className="w-5/6 me-2"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    handelComment(e);
+                  }}
+                />
+                <Fab
+                  onClick={() => {
+                    if (content) {
+                      dispatch(addComment({ content, id: { post: post._id } }));
+                    }
+                  }}
+                  type="submit"
+                  size="medium"
+                  color="primary"
+                  aria-label="add"
+                >
+                  <AddIcon />
+                </Fab>
+              </div>
               {post.comments.length > 0 && (
                 <ExpandMore
                   expand={expandedId == post._id && expanded}
@@ -133,11 +170,6 @@ export default function AllPosts() {
                           .toUpperCase()}
                       </Avatar>
                     }
-                    action={
-                      <IconButton aria-label="settings">
-                        <MoreVertIcon />
-                      </IconButton>
-                    }
                     title={post.comments[0]?.commentCreator.name}
                     subheader={post.comments[0]?.createdAt.slice(0, 10)}
                   />
@@ -149,11 +181,13 @@ export default function AllPosts() {
                     {post.comments[0]?.content}
                   </Typography>
                 </CardContent>
-                <div className="text-center pb-3 hover:text-mainColor hover:underline duration-200">
-                  <Link href={`/singlepost/${post._id}`}>
-                    Show More Comments
-                  </Link>
-                </div>
+                {post.comments.length > 1 && (
+                  <div className="text-center pb-3 hover:text-mainColor hover:underline duration-200">
+                    <Link href={`/singlepost/${post._id}`}>
+                      Show More Comments
+                    </Link>
+                  </div>
+                )}
               </Collapse>
             )}
           </Card>
